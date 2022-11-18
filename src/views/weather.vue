@@ -4,7 +4,7 @@
     <input 
         class="form-control bg p-2 shadow fw-bold" 
         type="text" 
-        placeholder="Search....."
+        placeholder="Click here to search for current weather in your location...."
         v-model="query" @keyup.enter="fetchWeather"
     >
   
@@ -19,9 +19,19 @@
           <div class="weather my-4 fs-1 fst-italic ">{{ this.weather.weather[0].main }}</div>
         </div>
     </div>
-  </main>
 
-  
+    <!-- <div class="weather-box text-light text-center fw-bold" v-for="(data, index) in weather" :key="index">
+        <div class="location-box my-3">
+          <div class="location fs-1 ">{{ this.weather.name }}, {{ this.weather.sys.country}}</div>
+          <div class="date fs-6 fst-italic fw-normal">{{this.currentDate}}</div>
+        </div>
+
+        <div class="weather-box mt-4">
+          <div class="temp d-inline shadow-lg rounded-3 p-2">{{ Math.round(this.weather.main.temp) }}°c</div>
+          <div class="weather my-4 fs-1 fst-italic ">{{ this.weather.weather[0].main }}</div>
+        </div>
+    </div> -->
+  </main>
 
   </div>
 </template>
@@ -39,7 +49,8 @@ export default class weather extends Vue {
     url_base = 'https://api.openweathermap.org/data/2.5/'
     query = ''
     weather = {}
-    // date = new Date().toLocaleDateString()
+    // this.weather.name = 'Lagos'
+    // this.weather.sys.country = 'NG'
     d = new Date()
     months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
