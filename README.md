@@ -1,4 +1,5 @@
 # weather-app
+<<<<<<< HEAD
 
 ## Project setup
 ```
@@ -27,3 +28,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+A simple weather app displaying the current weather of all cities in the world
+>>>>>>> 846986c6db829c8ca317e4571595c78d77c40f96
