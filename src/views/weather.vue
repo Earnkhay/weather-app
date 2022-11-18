@@ -1,8 +1,8 @@
 <template>
-  <div id="app" class="bg-secondary">
+  <div id="app" :class="[typeof weather.main != 'undefined' && weather.main.temp <= 16 ? 'cold' : '']">
   <main class="p-5">
     <input 
-        class="form-control bg p-2 shadow" 
+        class="form-control bg p-2 shadow fw-bold" 
         type="text" 
         placeholder="Search....."
         v-model="query" @keyup.enter="fetchWeather"
@@ -57,7 +57,6 @@ export default class weather extends Vue {
         })
         .then(this.setResults)
         .catch((err) => {
-            // handle error
             console.log(err)
         })
     }
@@ -81,6 +80,15 @@ body {
 
 #app{
     min-height: 100vh;
+    background-image: url(../assets/warm.jpg);
+    background-size: cover;
+    /* background-position: bottom; */
+    background-position: center;
+    transition: 0.4s;
+}
+
+#app.cold{
+    background-image: url(../assets/cold.jpg);
 }
 .bg{
     background-color: rgba(255, 255, 255, 0.5);
@@ -97,5 +105,11 @@ body {
 
 .weather{
     text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+@media screen and (max-width: 310px) {
+    .temp{
+        font-size: 80px;
+    }
 }
 </style>
