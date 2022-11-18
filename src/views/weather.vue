@@ -52,17 +52,14 @@ export default class weather extends Vue {
     fetchWeather(){
         axios.get(`${this.url_base}weather?q=${this.query}&units=metric&appid=${this.api_key}`)
         .then((res) => {
-            console.log(res.data, 'comparing the data to the data object', this.weather)
+            // console.log(res.data, 'comparing the data to the data object', this.weather)
             return res.data 
         })
         .then(this.setResults)
-        .catch((err) => {
-            console.log(err)
-        })
     }
     setResults(results){
         this.weather = results
-        console.log(results, 'trying to figure out what this data is', this.weather);
+        // console.log(results, 'trying to figure out what this data is', this.weather)
     }
 }
 </script>

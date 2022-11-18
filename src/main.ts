@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.js'
-import axios from 'axios'
+// import axios from 'axios'
 
 const app = createApp(App);
 
