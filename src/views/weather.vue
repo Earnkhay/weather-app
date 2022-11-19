@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="[weather.temp <= 16 ? 'cold' : '']">
+  <div id="app" :class="[weather.temp <= 16 ? 'cold' : weather.weather == 'Rain' ? 'rain' : '']" >
   <div class="text-center pt-4 text-light text-bold">
     <h1 class="fs-1 location">Weather in</h1>
   </div>
@@ -103,6 +103,9 @@ body {
 
 #app.cold{
     background-image: url(../assets/cold.jpg);
+}
+#app.rain{
+    background-image: url(../assets/rain.jpg);
 }
 .bg{
     background-color: rgba(255, 255, 255, 0.5);
