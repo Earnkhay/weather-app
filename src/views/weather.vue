@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="[typeof weather.main != 'undefined' && weather.main.temp <= 16 ? 'cold' : '']">
+  <div id="app" :class="[weather.temp <= 16 ? 'cold' : '']">
   <div class="text-center pt-4 text-light text-bold">
     <h1 class="fs-1 location">Weather in</h1>
   </div>
@@ -8,18 +8,19 @@
         class="form-control bg p-2 shadow fw-bold" 
         type="text" 
         placeholder="City...."
-        v-model="query" @keydown.enter="fetchWeather"
+        v-model="city" @keydown.enter="fetchWeather"
     >
   
-    <div class="weather-box text-light text-center fw-bold" v-if=" typeof weather.main != 'undefined' " >
+    <div class="weather-box text-light text-center fw-bold">
         <div class="location-box my-3">
-          <div class="location fs-1 ">{{ this.weather.name }}, {{ this.weather.sys.country}}</div>
-          <div class="date fs-6 fst-italic fw-normal">{{this.currentDate}}</div>
+          <div class="location fs-1 ">{{ weather.name }}, {{ weather.country}}</div>
+          <div class="date fs-6 fst-italic fw-normal">{{currentDate}}</div>
         </div>
 
         <div class="weather-box mt-4">
-          <div class="temp d-inline shadow-lg rounded-3 p-2">{{ Math.round(this.weather.main.temp) }}°c</div>
-          <div class="weather my-4 fs-1 fst-italic ">{{ this.weather.weather[0].main }}</div>
+          <div class="temp d-inline shadow-lg rounded-3 p-2">{{ weather.temp }}°c</div>
+          <div class="weather mt-4 fs-1 fst-italic ">{{ weather.weather }}</div>
+          <div class="weather fs-1 fst-italic ">{{ weather.desc }}</div>
         </div>
     </div>
   </main>
@@ -27,7 +28,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Options, Vue } from 'vue-class-component'
 import axios from 'axios'
 
@@ -38,10 +39,14 @@ import axios from 'axios'
 export default class weather extends Vue {
     api_key = 'c0367ef24e5208a71b5782d87e7f65b0'
     url_base = 'https://api.openweathermap.org/data/2.5/'
-    query = ''
-    weather = {}
-    // this.weather.name = 'Lagos'
-    // this.weather.sys.country = 'NG'
+    city = ''
+    weather = {
+        name: '',
+        country: '',
+        temp: 0,
+        weather: '',
+        desc: ''
+    }
     d = new Date()
     months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
@@ -52,16 +57,28 @@ export default class weather extends Vue {
     currentDate = `${this.day} ${this.date} ${this.month} ${this.year}`
 
     fetchWeather(){
-        axios.get(`${this.url_base}weather?q=${this.query}&units=metric&appid=${this.api_key}`)
+        axios.get(`${this.url_base}weather?q=${this.city}&units=metric&appid=${this.api_key}`)
         .then((res) => {
-            console.log(res.data, 'comparing the data to the data object', this.weather)
-            return res.data 
+            // console.log(res.data, 'comparing the data to the data object', this.weather)
+             this.weather.name = res.data.name
+             this.weather.country = res.data.sys.country
+             this.weather.temp = Math.round(res.data.main.temp)
+             this.weather.weather = res.data.weather[0].main
+             this.weather.desc = res.data.weather[0].description
+             this.city = ''
         })
-        .then(this.setResults)
     }
-    setResults(results){
-        this.weather = results
-        console.log(results, 'trying to figure out what this data is', this.weather)
+
+    mounted(){
+        axios.get(`${this.url_base}weather?q=Lagos&units=metric&appid=${this.api_key}`)
+        .then((res) => {
+            // console.log(res.data, 'comparing the data to the data object', this.weather)
+             this.weather.name = res.data.name
+             this.weather.country = res.data.sys.country
+             this.weather.temp = Math.round(res.data.main.temp)
+             this.weather.weather = res.data.weather[0].main
+             this.weather.desc = res.data.weather[0].description
+        })
     }
 }
 </script>
@@ -81,7 +98,6 @@ body {
     min-height: 100vh;
     background-image: url(../assets/warm.jpg);
     background-size: cover;
-    /* background-position: bottom; */
     background-position: center;
     transition: 0.4s;
 }
