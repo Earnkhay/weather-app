@@ -3,7 +3,7 @@
   <div class="text-center pt-4 text-light text-bold">
     <h1 class="fs-1 location">Weather in</h1>
   </div>
-  <main class="p-4">
+  <main class="px-5 py-4">
     <input 
         class="form-control bg p-2 shadow fw-bold" 
         type="text" 
@@ -54,7 +54,7 @@ export default class weather extends Vue {
     day = this.weekday[this.d.getDay()]
     year = this.d.getFullYear()
     date = this.d.getDate()
-    currentDate = `${this.day} ${this.date} ${this.month} ${this.year}`
+    currentDate = `${this.day}, ${this.date} ${this.month} ${this.year}`
 
     fetchWeather(){
         axios.get(`${this.url_base}weather?q=${this.city}&units=metric&appid=${this.api_key}`)
@@ -72,7 +72,6 @@ export default class weather extends Vue {
     mounted(){
         axios.get(`${this.url_base}weather?q=Lagos&units=metric&appid=${this.api_key}`)
         .then((res) => {
-            // console.log(res.data, 'comparing the data to the data object', this.weather)
              this.weather.name = res.data.name
              this.weather.country = res.data.sys.country
              this.weather.temp = Math.round(res.data.main.temp)
