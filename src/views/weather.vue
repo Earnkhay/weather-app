@@ -8,10 +8,12 @@
         class="form-control bg p-2 shadow fw-bold" 
         type="text" 
         placeholder="City...."
-        v-model="city" @keydown.enter="fetchWeather"
+        v-model="city" @keydown.enter="getWeather"
     >
+
+    <p class="text-center my-3 text-light fs-4 location fw-bold" v-if="cityFound">No city found</p>
   
-    <div class="weather-box text-light text-center fw-bold">
+    <div class="weather-box text-light text-center fw-bold" v-if="visible">
         <div class="location-box my-3">
           <div class="location fs-1 ">{{ weather.name }}, {{ weather.country}}</div>
           <div class="date fs-6 fst-italic fw-normal">{{currentDate}}</div>
@@ -47,6 +49,8 @@ export default class weather extends Vue {
         weather: '',
         desc: ''
     }
+    cityFound = false
+    visible = true
     d = new Date()
     months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
@@ -56,7 +60,7 @@ export default class weather extends Vue {
     date = this.d.getDate()
     currentDate = `${this.day}, ${this.date} ${this.month} ${this.year}`
 
-    fetchWeather(){
+    getWeather(){
         axios.get(`${this.url_base}weather?q=${this.city}&units=metric&appid=${this.api_key}`)
         .then((res) => {
             // console.log(res.data, 'comparing the data to the data object', this.weather)
@@ -66,7 +70,16 @@ export default class weather extends Vue {
              this.weather.weather = res.data.weather[0].main
              this.weather.desc = res.data.weather[0].description
              this.city = ''
-        })
+        }).catch((err) => {
+            console.log(err);
+            this.cityFound = true
+            this.city = ''
+            this.visible = false
+            setTimeout(() => {    
+                this.cityFound = false     
+                this.visible = true
+            },3000) 
+          })
     }
 
     mounted(){
