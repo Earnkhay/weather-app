@@ -1,10 +1,13 @@
 <template>
   <div id="app" :class="[typeof weather.main != 'undefined' && weather.main.temp <= 16 ? 'cold' : '']">
-  <main class="p-5">
+  <div class="text-center pt-4  text-light text-bold">
+    <h1 class="fs-1">Weather in</h1>
+  </div>
+  <main class="p-4">
     <input 
         class="form-control bg p-2 shadow fw-bold" 
         type="text" 
-        placeholder="Click here to search for current weather in your location...."
+        placeholder="City...."
         v-model="query" @keyup.enter="fetchWeather"
     >
   
@@ -63,14 +66,14 @@ export default class weather extends Vue {
     fetchWeather(){
         axios.get(`${this.url_base}weather?q=${this.query}&units=metric&appid=${this.api_key}`)
         .then((res) => {
-            // console.log(res.data, 'comparing the data to the data object', this.weather)
+            console.log(res.data, 'comparing the data to the data object', this.weather)
             return res.data 
         })
         .then(this.setResults)
     }
     setResults(results){
         this.weather = results
-        // console.log(results, 'trying to figure out what this data is', this.weather)
+        console.log(results, 'trying to figure out what this data is', this.weather)
     }
 }
 </script>
