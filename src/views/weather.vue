@@ -1,14 +1,14 @@
 <template>
   <div id="app" :class="[typeof weather.main != 'undefined' && weather.main.temp <= 16 ? 'cold' : '']">
-  <div class="text-center pt-4  text-light text-bold">
-    <h1 class="fs-1">Weather in</h1>
+  <div class="text-center pt-4 text-light text-bold">
+    <h1 class="fs-1 location">Weather in</h1>
   </div>
   <main class="p-4">
     <input 
         class="form-control bg p-2 shadow fw-bold" 
         type="text" 
         placeholder="City...."
-        v-model="query" @keyup.enter="fetchWeather"
+        v-model="query" @keydown.enter="fetchWeather"
     >
   
     <div class="weather-box text-light text-center fw-bold" v-if=" typeof weather.main != 'undefined' " >
@@ -22,18 +22,6 @@
           <div class="weather my-4 fs-1 fst-italic ">{{ this.weather.weather[0].main }}</div>
         </div>
     </div>
-
-    <!-- <div class="weather-box text-light text-center fw-bold" v-for="(data, index) in weather" :key="index">
-        <div class="location-box my-3">
-          <div class="location fs-1 ">{{ this.weather.name }}, {{ this.weather.sys.country}}</div>
-          <div class="date fs-6 fst-italic fw-normal">{{this.currentDate}}</div>
-        </div>
-
-        <div class="weather-box mt-4">
-          <div class="temp d-inline shadow-lg rounded-3 p-2">{{ Math.round(this.weather.main.temp) }}°c</div>
-          <div class="weather my-4 fs-1 fst-italic ">{{ this.weather.weather[0].main }}</div>
-        </div>
-    </div> -->
   </main>
 
   </div>
